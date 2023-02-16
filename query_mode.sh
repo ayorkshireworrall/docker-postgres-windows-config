@@ -1,1 +1,1 @@
-psql -U root --dbname=$DOCKER_PG_NAME
+psql -U root --dbname=$DOCKER_PG_DB

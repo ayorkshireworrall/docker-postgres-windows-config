@@ -87,9 +87,9 @@ Firstly, create a file named `init.sql` in the root of this project folder. The 
 The below example content will do just this:
 
 ```
-create database appdb
-create user appuser
-grant all privileges on database appdb to appuser
+create database appdb;
+create user appuser;
+grant all privileges on database appdb to appuser;
 ```
 
 Open up a CMD or Powershell terminal and navigate to the locally cloned version of this project.
@@ -103,6 +103,8 @@ At this point the postgres server should be up and running on port 5432 so ought
 As your application persists its state to the database, you can take snapshots of it by running the `backup.bat` file. This will prompt you for a file name which should **exclude** the .sql extension. All this file is doing is running some docker commands to run some psql commands inside the container to dump the database into a file. It then copies this file with your chosen name to a directory in Windows called backup_dumps. **Choosing the same name for a backup will overwrite any existing files in this directory**.
 
 If you wish to restore the application to a given state, run the `restore.bat`. This will prompt for a file name (again exclude the extension) and will copy this file from the Windows directory to the container's root directory. Again the command to execute the restoration of the database dump doesn't seem to complete when run from a batch file so this will need to be copied and pasted manually.
+
+There are also a couple of util files such as `start.bat` which is to quickly start the server (much easier to type 's' then tab and enter rather than submit the full docker start container-name). Similarly there is the a command to enter the container shell called `enter_shell.bat`, similarly this is a simple docker command but 'e' tab and enter are quicker. From the container a similar shortcut exists to actually enter the postgres console by running the `query_mode.sh` which uses an environment variable to connect to the application database as the root user.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
