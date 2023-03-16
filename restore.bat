@@ -6,7 +6,7 @@ docker stop %DOCKER_PG_NAME%
 docker rm %DOCKER_PG_NAME%
 
 echo Starting new container %DOCKER_PG_NAME%
-docker run -d -e POSTGRES_PASSWORD=sa -e POSTGRES_USER=root --name=%DOCKER_PG_NAME% -p 5432:5432 postgres:14
+docker run -d -e POSTGRES_PASSWORD=sa -e POSTGRES_USER=root -e DOCKER_PG_DB=%DOCKER_PG_DB% --name=%DOCKER_PG_NAME% -p 5432:5432 postgres:14
 
 echo.
 echo Copying backup sql to new container
