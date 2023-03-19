@@ -54,6 +54,7 @@
       <a href="#usage">Usage</a>
       <ul>
         <li><a href="#windows">Windows</a></li>
+        <li><a href="#linux">Linux</a></li>
       </ul>
     </li>
   </ol>
