@@ -86,6 +86,15 @@ Also no docker container should be running on the port 5432. If there is then ru
 ## Usage
 The script files are designed to be run from their respective folders in a terminal but the SQL file to initialise the project should be created in the project root folder.
 
+At a high level, you will use the project by
+ - Creating an `init.sql` file with some initial database set up commands
+ - Set some environment variables with the **Configure** script
+ - Initialise the docker container with the **Init** script
+ - Backup your data and store that as an sql file in `backup_dumps` using the **Backup** script
+ - Restore your data from saved sql files using the **Restore** script
+
+ Below will walk through an give some explanation of how the scripts achieve this for both Windows and Linux operating systems.
+
 ### Windows
 
 Firstly, create a file named `init.sql` in the root of this project folder. The contents of this file should be a small set of SQL commands to
