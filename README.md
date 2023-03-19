@@ -50,7 +50,12 @@
         <li><a href="#prerequisites">Prerequisites</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
+    <li>
+      <a href="#usage">Usage</a>
+      <ul>
+        <li><a href="#windows">Windows</a></li>
+      </ul>
+    </li>
   </ol>
 </details>
 
@@ -70,13 +75,15 @@ To get started simply clone this repo to a folder of choice and you're nearly re
 
 ### Prerequisites
 
-Docker installation on a Windows PC. At the time of writing I had Docker version 20.10.12 installed but the commands used are core commands that are unlikely to ever change so in theory it should work with any version. Docker provides comprehensive installation instructions so I'll spare myself any errors and refer to their documentation for this ;) https://docs.docker.com/desktop/install/windows-install/
+Docker installation on a Windows PC or Linux operating system. At the time of writing I had Docker version 20.10.12 installed but the commands used are core commands that are unlikely to ever change so in theory it should work with any version. Docker provides comprehensive installation instructions so I'll spare myself any errors and refer to their documentation for this ;) https://docs.docker.com/desktop/install/windows-install/
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- USAGE EXAMPLES -->
 
 ## Usage
+
+### Windows
 
 Firstly, create a file named `init.sql` in the root of this project folder. The contents of this file should be a small set of SQL commands to
 
@@ -92,7 +99,7 @@ create user appuser;
 grant all privileges on database appdb to appuser;
 ```
 
-Open up a CMD or Powershell terminal and navigate to the locally cloned version of this project.
+Open up a CMD or Powershell terminal and navigate to the locally cloned version of this project and then to the windows_scripts folder.
 
 The first batch file to run is the `configure.bat` file. This is simply to set a few environment variables for your windows user. It will prompt for these but they can also be set manually. Once this .bat file has executed, you will need to open a new terminal for the changed environment variables to be recognised so close down the terminal and open a new one, navigating back to this folder. These environment variables will need to be reset every time you switch applications. Alternatively, the .bat files here can be copied and modified to just take fixed names for each of your projects.
 
@@ -105,6 +112,35 @@ As your application persists its state to the database, you can take snapshots o
 If you wish to restore the application to a given state, run the `restore.bat`. This will prompt for a file name (again exclude the extension) and will copy this file from the Windows directory to the container's root directory. Again the command to execute the restoration of the database dump doesn't seem to complete when run from a batch file so this will need to be copied and pasted manually.
 
 There are also a couple of util files such as `start.bat` which is to quickly start the server (much easier to type 's' then tab and enter rather than submit the full docker start container-name). Similarly there is the a command to enter the container shell called `enter_shell.bat`, similarly this is a simple docker command but 'e' tab and enter are quicker. From the container a similar shortcut exists to actually enter the postgres console by running the `query_mode.sh` which uses an environment variable to connect to the application database as the root user.
+
+### Linux
+Firstly, create a file named `init.sql` in the root of this project folder. The contents of this file should be a small set of SQL commands to
+
+- create a database for you application's tables
+- create a user that your application will use to connect to the database with
+- assign the relevant permissions to that user for the application's purposes
+
+The below example content will do just this:
+
+```
+create database appdb;
+create user appuser;
+grant all privileges on database appdb to appuser;
+```
+Open up a terminal and navigate to the locally cloned version of this project and then to the linux_scripts folder.
+
+The first batch file to run is the `configure.sh` file. This is simply to set a few environment variables for your windows user. It will prompt for these but they can also be set manually. Once this .bat file has executed, you will need to open a new terminal for the changed environment variables to be recognised so close down the terminal and open a new one, navigating back to this folder. These environment variables will need to be reset every time you switch applications. Alternatively, the .bat files here can be copied and modified to just take fixed names for each of your projects.
+
+The next batch file to run is `init.sh`. This will pull the postgres image matching the version specified in the configuration step (if you don't have this image already saved). It will then build and run the container with some standard postgres environment variables. Finally it will copy across the init.sql to the root folder of the running container. Frustratingly trying to run Docker commands that take a while is something I've not managed to achieve in a batch file, but they can still be run from the console. The required command to actually run the init.sql will be output on the console at the bottom to be copied and pasted and run by yourself manually.
+
+At this point the postgres server should be up and running on port 5432 so ought to be accessible from your application if you have the correct connection details.
+
+As your application persists its state to the database, you can take snapshots of it by running the `backup.sh` file. This will prompt you for a file name which should **exclude** the .sql extension. All this file is doing is running some docker commands to run some psql commands inside the container to dump the database into a file. It then copies this file with your chosen name to a directory in Windows called backup_dumps. **Choosing the same name for a backup will overwrite any existing files in this directory**.
+
+If you wish to restore the application to a given state, run the `restore.sh`. This will prompt for a file name (again exclude the extension) and will copy this file from the Windows directory to the container's root directory. Again the command to execute the restoration of the database dump doesn't seem to complete when run from a batch file so this will need to be copied and pasted manually.
+
+There are also a couple of util files such as `start.sh` which is to quickly start the server (much easier to type 's' then tab and enter rather than submit the full docker start container-name). Similarly there is the a command to enter the container shell called `enter_shell.sh`, similarly this is a simple docker command but 'e' tab and enter are quicker. From the container a similar shortcut exists to actually enter the postgres console by running the `query_mode.sh` which uses an environment variable to connect to the application database as the root user.
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
