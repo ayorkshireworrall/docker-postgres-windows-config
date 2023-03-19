@@ -1,0 +1,1 @@
+docker exec -it $DOCKER_PG_NAME /bin/bash
