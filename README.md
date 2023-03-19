@@ -94,7 +94,7 @@ At a high level, you will use the project by
  - Backup your data and store that as an sql file in `backup_dumps` using the **Backup** script
  - Restore your data from saved sql files using the **Restore** script
 
- Below will walk through an give some explanation of how the scripts achieve this for both Windows and Linux operating systems.
+ Below will walk through an give some explanation of how the scripts achieve this for both <a href="#windows">Windows</a> and <a href="#linux">Linux</a> operating systems.
 
 ### Windows
 
